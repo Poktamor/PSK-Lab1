@@ -1,6 +1,5 @@
 package org.example.controllers;
 
-import org.apache.coyote.Response;
 import org.example.DTOs.SubmarineDTO;
 import org.example.DTOs.SubmarinePostPutDTO;
 import org.example.models.Submarine;
@@ -10,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.net.http.HttpResponse;
 import java.util.List;
 
 @RestController
