@@ -1,11 +1,8 @@
-package org.example;
+package org.example.models;
 
 import jakarta.persistence.*;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Entity
 public class Person {
@@ -15,7 +12,7 @@ public class Person {
     private String name;
     private String surname;
 
-    @ManyToOne @JoinColumn(name = "submarine_id")
+    @ManyToOne (fetch=FetchType.LAZY) @JoinColumn(name = "submarine_id")
     private Submarine submarine;
 
     @ManyToMany
@@ -62,7 +59,3 @@ public class Person {
     }
 }
 
-@Repository
-interface PersonRepository extends JpaRepository<Person, Long> {
-    Person findByName(String name);
-}

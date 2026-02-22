@@ -1,8 +1,6 @@
-package org.example;
+package org.example.models;
 
 import jakarta.persistence.*;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -42,7 +40,3 @@ public class Submarine {
     }
 }
 
-@Repository
-interface SubmarineRepository extends JpaRepository<Submarine, Long> {
-    Submarine findByName(String name);
-}

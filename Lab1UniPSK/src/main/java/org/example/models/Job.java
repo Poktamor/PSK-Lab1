@@ -1,8 +1,6 @@
-package org.example;
+package org.example.models;
 
 import jakarta.persistence.*;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -20,7 +18,7 @@ public class Job {
         this.people = people;
     }
 
-    @ManyToMany
+    @ManyToMany (fetch=FetchType.LAZY)
     private List<Person> people;
 
     public long getId() {
@@ -40,7 +38,3 @@ public class Job {
     }
 }
 
-@Repository
-interface JobsRepository extends JpaRepository<Job, Long> {
-    Job findByName(String name);
-}

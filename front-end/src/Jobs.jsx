@@ -1,12 +1,10 @@
-import {Table, Col, Row} from 'react-bootstrap'
+import {Table, Col, Row, Nav, Tabs, Tab} from 'react-bootstrap'
 import {useEffect, useState} from "react";
 import './App.css'
 
 let didInit = false;
-
-function Home() {
-    const [tableContent, setTableContent] = useState([]);
-
+function Jobs() {
+    const [tableContent, setTableContent] = useState([[]]);
 
     const fetchTable = async () => {
         try {
@@ -24,30 +22,38 @@ function Home() {
         }
     }, []);
 
-    const tableData = tableContent.map(person =>
+    const tableHead = (
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>JobIds</th>
+            <th>SubmarineId</th>
+        </tr>
+    )
+
+    const tableBody = tableContent.map(person =>
         <tr key={person.id}>
-            <td>{person.id}</td>
-            <td>{person.name}</td>
-            <td>{person.surname}</td>
+            <td>person.id</td>
+            <td>person.name</td>
+            <td>person.surname</td>
+            <td>person.jobIds</td>
+            <td>person.submarineId</td>
         </tr>
     )
 
     return (
-        <main>
-            <Table striped bordered hover>
+        <main className="w-100">
+            <Table>
                 <thead>
-                    <tr>
-                        <td>Id</td>
-                        <td>Name</td>
-                        <td>Surname</td>
-                    </tr>
+                {tableHead}
                 </thead>
                 <tbody>
-                    {tableData}
+                {tableBody}
                 </tbody>
             </Table>
         </main>
     )
 }
 
-export default Home
+export default Jobs
