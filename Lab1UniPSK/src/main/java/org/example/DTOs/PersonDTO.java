@@ -21,10 +21,10 @@ public class PersonDTO {
                 ? person.getSubmarine().getId()
                 : null;
 
-        this.jobIds = person.getJobs()
-                .stream()
-                .map(Job::getId)
-                .toList();
+//        this.jobIds = person.getJobs()
+//                .stream()
+//                .map(Job::getId)
+//                .toList();
     }
 
 }

@@ -1,10 +1,10 @@
 import {Button, Form, Modal} from "react-bootstrap";
 
-const SubmarinesModal = ({selectedSubmarine, setSelectedSubmarine, showModal, setShowModal, fetchTable}) => {
+const JobsModal = ({selectedJob, setSelectedJob, showModal, setShowModal, fetchTable}) => {
 
     const handleChange = (e) => {
         const {name, value} = e.target;
-        setSelectedSubmarine(prev => ({
+        setSelectedJob(prev => ({
             ...prev,
             [name]: value
         }));
@@ -18,7 +18,7 @@ const SubmarinesModal = ({selectedSubmarine, setSelectedSubmarine, showModal, se
                     <Form.Control
                         input="text"
                         name="name"
-                        value={selectedSubmarine.name}
+                        value={selectedJob.name}
                         onChange={handleChange}
                     />
                 </Form.Group>
@@ -28,20 +28,20 @@ const SubmarinesModal = ({selectedSubmarine, setSelectedSubmarine, showModal, se
 
     const createSubmarine = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/Submarines', {
+            const response = await fetch('http://localhost:8080/api/Jobs', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(selectedSubmarine)
+                body: JSON.stringify(selectedJob)
             });
 
             if (!response.ok) {
                 throw new Error(`Failed to update submarine: ${response.statusText}`);
             }
 
-            const createdSubmarine = await response.json();
-            console.log("Created submarine successfully:", createdSubmarine);
+            const createdJob = await response.json();
+            console.log("Created submarine successfully:", createdJob);
         }
         catch (error){
             console.error("Error updating submarine:", error);
@@ -51,20 +51,20 @@ const SubmarinesModal = ({selectedSubmarine, setSelectedSubmarine, showModal, se
     }
 
     const updateSubmarine = async () => {
-        console.log(selectedSubmarine);
+        console.log(selectedJob);
 
-        if (!selectedSubmarine.id) {
+        if (!selectedJob.id) {
             console.error("Cannot update submarine without an ID");
             return;
         }
 
         try {
-            const response = await fetch(`http://localhost:8080/api/Submarines/${selectedSubmarine.id}`, {
+            const response = await fetch(`http://localhost:8080/api/Jobs/${selectedJob.id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(selectedSubmarine),
+                body: JSON.stringify(selectedJob),
             });
 
             if (!response.ok) {
@@ -87,14 +87,14 @@ const SubmarinesModal = ({selectedSubmarine, setSelectedSubmarine, showModal, se
         >
             <Modal.Header closeButton>
                 <Modal.Title>
-                    {selectedSubmarine.id ? "Edit Person" : "Create new Person"}
+                    {selectedJob.id ? "Edit Job" : "Create new Job"}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 {modalBody()}
             </Modal.Body>
             <Modal.Footer>
-                { selectedSubmarine.id ?
+                { selectedJob.id ?
                     <>
                         <Button variant="danger">
                             Delete
@@ -113,4 +113,4 @@ const SubmarinesModal = ({selectedSubmarine, setSelectedSubmarine, showModal, se
     )
 }
 
-export default SubmarinesModal;
+export default JobsModal;

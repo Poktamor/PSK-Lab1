@@ -1,4 +1,4 @@
-import {Table, Col, Row, Nav, Tabs, Tab} from 'react-bootstrap'
+import {Table, Col, Row, Nav, Tabs, Tab, Button} from 'react-bootstrap'
 import {useEffect, useState} from "react";
 import './App.css'
 import SubmarinesModal from "./SubmarinesModal.jsx";
@@ -31,7 +31,14 @@ function Submarines() {
     )
 
     const handleRowClick = (submarine) => {
-        setSelectedSubmarine(submarine);
+        if (submarine == null){
+            setSelectedSubmarine({
+                id: null,
+                name: '',
+            })
+        }else {
+            setSelectedSubmarine(submarine);
+        }
         setShowModal(true);
     }
 
@@ -43,7 +50,8 @@ function Submarines() {
     )
 
     return (
-        <main className="w-100">
+        <main className="w-100 d-flex flex-column gap-1">
+            <Button className="align-self-start" onClick={() => {handleRowClick(null)}}>Add Submarine</Button>
             <Table striped hover className="selectableTable">
                 <thead>
                     {tableHead}

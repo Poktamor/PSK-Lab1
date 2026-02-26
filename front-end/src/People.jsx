@@ -10,7 +10,7 @@ function People() {
         id: undefined,
         name: "",
         surname: "",
-        jobIds: "",
+        jobIds: [],
         submarineId: undefined
     });
     const [showModal, setShowModal] = useState(false);
@@ -44,7 +44,7 @@ function People() {
                 id: undefined,
                 name: "",
                 surname: "",
-                jobIds: "",
+                jobIds: [],
                 submarineId: undefined
             })
         }

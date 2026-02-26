@@ -48,7 +48,7 @@ public class PersonController {
 
         Person savedPerson = personRepository.save(person);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedPerson);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new PersonDTO(savedPerson));
     }
 
     @PutMapping("api/People/{id}")

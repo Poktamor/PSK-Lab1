@@ -21,6 +21,15 @@ public class Job {
     @ManyToMany (fetch=FetchType.LAZY)
     private List<Person> people;
 
+    public List<Long> getPeopleIds() {
+        if (people == null) {
+            return List.of(); // returns empty immutable list
+        }
+        return people.stream()
+                .map(Person::getId)
+                .toList();
+    }
+
     public long getId() {
         return id;
     }
