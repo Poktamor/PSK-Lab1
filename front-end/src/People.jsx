@@ -13,12 +13,16 @@ function People() {
         jobIds: [],
         submarineId: undefined
     });
+    const [jobs, setJobs] = useState ([]);
     const [showModal, setShowModal] = useState(false);
 
     const fetchTable = async () => {
         try {
             const response = await fetch('http://localhost:8080/api/People');
             setTableContent(await response.json());
+
+            const jobsResponse = await fetch ('http://localhost:8080/api/Jobs');
+            setJobs(await jobsResponse.json());
         } catch (e){
             console.error(e);
         }
@@ -62,7 +66,13 @@ function People() {
             <td>{person.id}</td>
             <td>{person.name}</td>
             <td>{person.surname}</td>
-            <td>{person.jobIds}</td>
+            <td>
+                {person.jobIds && person.jobIds.length > 0
+                    ? person.jobIds.map((id, index) => (
+                        <span key={index}>{id}{index < person.jobIds.length - 1 ? ", " : ""}</span>
+                    ))
+                    : "—"}
+            </td>
             <td>{person.submarineId}</td>
         </tr>
     ));
@@ -79,7 +89,7 @@ function People() {
                     {tableBody}
                 </tbody>
             </Table>
-            <PeopleModal selectedPerson={selectedPerson} setSelectedPerson={setSelectedPerson} showModal={showModal} setShowModal={setShowModal} fetchTable={fetchTable}/>
+            <PeopleModal selectedPerson={selectedPerson} setSelectedPerson={setSelectedPerson} showModal={showModal} setShowModal={setShowModal} fetchTable={fetchTable} jobs={jobs}/>
         </main>
     )
 }

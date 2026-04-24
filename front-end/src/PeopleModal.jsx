@@ -1,9 +1,10 @@
 import {Button, Form, Modal} from "react-bootstrap";
 
-const PeopleModal = ({selectedPerson, setSelectedPerson, showModal, setShowModal, fetchTable}) => {
+const PeopleModal = ({selectedPerson, setSelectedPerson, showModal, setShowModal, fetchTable, jobs}) => {
 
     const updatePerson = async () => {
         console.log(selectedPerson);
+        console.log("fukin");
 
         if (!selectedPerson.id) {
             console.error("Cannot update person without an ID");
@@ -86,7 +87,32 @@ const PeopleModal = ({selectedPerson, setSelectedPerson, showModal, setShowModal
                     />
                 </Form.Group>
                 <Form.Group>
-                    <Form.Label>Job IDs</Form.Label>
+                    <Form.Label>Jobs</Form.Label>
+                    <div>
+                        {jobs.map(job => (
+                            <Form.Check
+                                key={job.id}
+                                type="checkbox"
+                                id={`job-${job.id}`}
+                                label={job.name}
+                                checked={selectedPerson.jobIds?.includes(job.id) || false}
+                                onChange={(e) => {
+                                    const checked = e.target.checked;
+                                    setSelectedPerson(prev => {
+                                        let updatedJobIds = prev.jobIds || [];
+                                        if (checked) {
+                                            // Add the job ID if checked
+                                            updatedJobIds = [...updatedJobIds, job.id];
+                                        } else {
+                                            // Remove the job ID if unchecked
+                                            updatedJobIds = updatedJobIds.filter(id => id !== job.id);
+                                        }
+                                        return { ...prev, jobIds: updatedJobIds };
+                                    });
+                                }}
+                            />
+                        ))}
+                    </div>
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Submarine Id</Form.Label>
