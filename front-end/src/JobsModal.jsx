@@ -80,6 +80,22 @@ const JobsModal = ({selectedJob, setSelectedJob, showModal, setShowModal, fetchT
         fetchTable();
     };
 
+    const deleteJob = async () => {
+        try {
+            const response = await fetch("http://localhost:8080/api/Jobs/" + selectedJob.id, {
+                method : "DELETE"
+            });
+            if (!response.ok) {
+                throw new Error(`Failed to delete submarine: ${response.statusText}`);
+            }
+        }
+        catch (error){
+            console.error("Error delete submarine:", error);
+        }
+        setShowModal(false);
+        fetchTable();
+    }
+
     return (
         <Modal
             show={showModal}
@@ -96,7 +112,7 @@ const JobsModal = ({selectedJob, setSelectedJob, showModal, setShowModal, fetchT
             <Modal.Footer>
                 { selectedJob.id ?
                     <>
-                        <Button variant="danger">
+                        <Button variant="danger" onClick={deleteJob}>
                             Delete
                         </Button>
                         <Button variant="success" onClick={updateSubmarine}>

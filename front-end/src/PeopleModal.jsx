@@ -3,9 +3,6 @@ import {Button, Form, Modal} from "react-bootstrap";
 const PeopleModal = ({selectedPerson, setSelectedPerson, showModal, setShowModal, fetchTable, jobs}) => {
 
     const updatePerson = async () => {
-        console.log(selectedPerson);
-        console.log("fukin");
-
         if (!selectedPerson.id) {
             console.error("Cannot update person without an ID");
             return;
@@ -64,6 +61,22 @@ const PeopleModal = ({selectedPerson, setSelectedPerson, showModal, setShowModal
             [name]: value
         }));
     };
+
+    const deletePerson = async () => {
+        try {
+            const response = await fetch("http://localhost:8080/api/People/" + selectedPerson.id, {
+                method : "DELETE"
+            });
+            if (!response.ok) {
+                throw new Error(`Failed to delete person: ${response.statusText}`);
+            }
+        }
+        catch (error){
+            console.error("Error delete person:", error);
+        }
+        setShowModal(false);
+        fetchTable();
+    }
 
     const modalBody = () => {
         return(
@@ -143,7 +156,7 @@ const PeopleModal = ({selectedPerson, setSelectedPerson, showModal, setShowModal
             <Modal.Footer>
                 { selectedPerson.id ?
                     <>
-                        <Button variant="danger">
+                        <Button variant="danger" onClick={deletePerson}>
                             Delete
                         </Button>
                         <Button variant="success" onClick={updatePerson}>

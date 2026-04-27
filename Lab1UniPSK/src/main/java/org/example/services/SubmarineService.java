@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SubmarineService {
@@ -45,5 +46,13 @@ public class SubmarineService {
         submarineRepository.save(submarine);
 
         return ResponseEntity.status(HttpStatus.OK).body(new SubmarineDTO(submarine));
+    }
+    public ResponseEntity<?> delete(Long id){
+        Optional<Submarine> submarineToDelete = submarineRepository.findById(id);
+        if (submarineToDelete.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        submarineRepository.delete(submarineToDelete.get());
+        return ResponseEntity.noContent().build();
     }
 }

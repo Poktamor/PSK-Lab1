@@ -1,5 +1,6 @@
 package org.example.controllers;
 
+import org.apache.coyote.Response;
 import org.example.DTOs.SubmarinePostPutDTO;
 import org.example.services.SubmarineService;
 import org.springframework.http.ResponseEntity;
@@ -26,5 +27,10 @@ public class SubmarineController {
     @PutMapping("api/Submarines/{id}")
     public ResponseEntity<?> putSubmarine(@RequestBody SubmarinePostPutDTO newSubmarine, @PathVariable long id){
         return submarineService.update(newSubmarine, id);
+    }
+
+    @DeleteMapping("api/Submarines/{id}")
+    public ResponseEntity<?> deleteSubmarine(@PathVariable long id){
+        return submarineService.delete(id);
     }
 }

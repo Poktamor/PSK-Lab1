@@ -1,5 +1,6 @@
 package org.example.services;
 
+import jakarta.transaction.Transactional;
 import org.example.DTOs.JobDTO;
 import org.example.DTOs.JobPostPutDTO;
 import org.example.models.Job;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -68,5 +70,16 @@ public class JobService {
 
         jobsRepository.save(job);
         return ResponseEntity.status(HttpStatus.OK).body(new JobDTO(job));
+    }
+
+    @Transactional
+    public ResponseEntity<?> delete(Long id){
+        Optional<Job> jobToDelete = jobsRepository.findById(id);
+
+        if (jobToDelete.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        jobsRepository.delete(jobToDelete.get());
+        return ResponseEntity.noContent().build();
     }
 }

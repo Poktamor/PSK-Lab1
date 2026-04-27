@@ -26,4 +26,9 @@ public class JobsController {
     public ResponseEntity<?> putJob(@RequestBody JobPostPutDTO newJob, @PathVariable Long newId) {
         return jobService.update(newJob, newId);
     }
+
+    @DeleteMapping("api/Jobs/{id}")
+    public ResponseEntity<?> deleteJob(@PathVariable long id){
+        return jobService.delete(id);
+    }
 }

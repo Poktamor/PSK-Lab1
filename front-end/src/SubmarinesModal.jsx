@@ -80,6 +80,22 @@ const SubmarinesModal = ({selectedSubmarine, setSelectedSubmarine, showModal, se
         fetchTable();
     };
 
+    const deleteSubmarine = async () => {
+        try {
+            const response = await fetch("http://localhost:8080/api/Submarines/" + selectedSubmarine.id, {
+                method : "DELETE"
+            });
+            if (!response.ok) {
+                throw new Error(`Failed to delete submarine: ${response.statusText}`);
+            }
+        }
+        catch (error){
+            console.error("Error delete submarine:", error);
+        }
+        setShowModal(false);
+        fetchTable();
+    }
+
     return (
         <Modal
             show={showModal}
@@ -96,7 +112,7 @@ const SubmarinesModal = ({selectedSubmarine, setSelectedSubmarine, showModal, se
             <Modal.Footer>
                 { selectedSubmarine.id ?
                     <>
-                        <Button variant="danger">
+                        <Button variant="danger" onClick={deleteSubmarine}>
                             Delete
                         </Button>
                         <Button variant="success" onClick={updateSubmarine}>
