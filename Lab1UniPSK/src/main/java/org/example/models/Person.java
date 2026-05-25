@@ -12,12 +12,22 @@ public class Person {
     private String name;
     private String surname;
 
+    @Version
+    private Long version;
+
     @ManyToOne (fetch=FetchType.LAZY) @JoinColumn(name = "submarine_id")
     private Submarine submarine;
 
     @ManyToMany
+    @JoinTable(
+            name = "person_job",
+            joinColumns = @JoinColumn(name = "person_id"),
+            inverseJoinColumns = @JoinColumn(name = "job_id")
+    )
+
     private List<Job> jobs;
 
+    // get setters
     public List<Job> getJobs() {
         return jobs;
     }

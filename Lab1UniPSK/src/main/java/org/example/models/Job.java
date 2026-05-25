@@ -6,9 +6,16 @@ import java.util.List;
 
 @Entity
 public class Job {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String name;
+
+    @ManyToMany(mappedBy = "jobs", fetch = FetchType.LAZY)
+    private List<Person> people;
+
+
 
     public List<Person> getPeople() {
         return people;
@@ -17,9 +24,6 @@ public class Job {
     public void setPeople(List<Person> people) {
         this.people = people;
     }
-
-    @ManyToMany (fetch=FetchType.LAZY)
-    private List<Person> people;
 
     public List<Long> getPeopleIds() {
         if (people == null) {

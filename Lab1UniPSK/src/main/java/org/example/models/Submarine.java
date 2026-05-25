@@ -11,7 +11,7 @@ public class Submarine {
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "submarine")
+    @OneToMany(mappedBy = "submarine", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Person> crew;
 
 

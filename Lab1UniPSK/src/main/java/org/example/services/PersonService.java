@@ -1,5 +1,6 @@
 package org.example.services;
 
+import jakarta.transaction.Transactional;
 import org.example.DTOs.PersonDTO;
 import org.example.DTOs.PersonPostPutDTO;
 import org.example.models.Job;
@@ -57,8 +58,9 @@ public class PersonService {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new PersonDTO(savedPerson));
     }
-
+    @Transactional
     public ResponseEntity<?> update(PersonPostPutDTO newPerson, Long id) {
+
         Submarine submarine = submarineRepository
                 .findById(newPerson.submarineId)
                 .orElseThrow(() ->
@@ -86,12 +88,17 @@ public class PersonService {
         person.setSurname(newPerson.surname);
         person.setSubmarine(submarine);
 
+        try{
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         Person saved = personRepository.save(person);
 
         HttpStatus status = personRepository.existsById(id)
                 ? HttpStatus.OK
                 : HttpStatus.CREATED;
-
         return new ResponseEntity<>(new PersonDTO(saved), status);
     }
 

@@ -73,13 +73,24 @@ public class JobService {
     }
 
     @Transactional
-    public ResponseEntity<?> delete(Long id){
-        Optional<Job> jobToDelete = jobsRepository.findById(id);
+    public ResponseEntity<?> delete(Long id) {
 
-        if (jobToDelete.isEmpty())
+        Optional<Job> optionalJob = jobsRepository.findById(id);
+
+        if (optionalJob.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
 
-        jobsRepository.delete(jobToDelete.get());
+        Job job = optionalJob.get();
+
+        for (Person person : job.getPeople()) {
+            person.getJobs().remove(job);
+        }
+
+        job.getPeople().clear();
+
+        jobsRepository.delete(job);
+
         return ResponseEntity.noContent().build();
     }
 }
